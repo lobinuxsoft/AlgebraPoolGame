@@ -2,20 +2,25 @@ using UnityEngine;
 
 public class PhysicBody : MonoBehaviour
 {
-    [SerializeField] float mass = 1f;
-    [SerializeField] Vector3 velocity = Vector3.zero;
-    [SerializeField] Vector3 force = Vector3.zero;
-
-    private void Update()
+    public enum ShapeType
     {
-        velocity += force / mass;
-        transform.position += velocity * Time.deltaTime;
-
-        force = Vector3.zero;
+        Circle, Box
     }
 
-    public void AddForce(Vector3 force)
-    {
-        this.force += force;
-    }
+    [SerializeField] ShapeType shapeType = ShapeType.Circle;
+    [SerializeField] private Vector3 linearVelocity = Vector3.zero;
+    [SerializeField] float rotation = 0;
+    [SerializeField] float rotationalVelocity = 0;
+
+    [SerializeField] float density = 0;
+    [SerializeField] float mass = 0;
+    [SerializeField] float restitution = 0;
+    [SerializeField] float area;
+
+    [SerializeField] bool isStatic = false;
+
+    float radius = 0;
+    float width = 0;
+    float height = 0;
+
 }
