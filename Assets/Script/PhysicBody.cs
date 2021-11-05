@@ -21,22 +21,36 @@ public class PhysicBody : MonoBehaviour
     //float width = 0;    
     //float height = 0;
 
-    [SerializeField] Vector3 direction;
-    [SerializeField] float velocity;
-    [SerializeField] float aceleration;
+    [SerializeField] Vector3 direction = Vector3.zero;
+    [SerializeField] Vector3 velocity = Vector3.zero;
+    [SerializeField] float aceleration = 0.0f;
     [SerializeField] float mass = 5.0f;
     [SerializeField] float force = 15.0f;
 
-    [SerializeField] float gravity = -9.8f;
 
+    [SerializeField] float coefficientFriction = 0.0f; // 0.18 - 0.24
+    [SerializeField] float tableFriction = 0.2f; // 0.18 - 0.24
+
+    [SerializeField] float gravity = 9.8f;
+
+    private void Start()
+    {
+        aceleration = force / mass;
+        coefficientFriction = tableFriction * (mass * gravity);
+    }
     private void Update()
     {
+        aceleration -= coefficientFriction * Time.deltaTime;
 
-        aceleration = force / mass;
-        aceleration -= gravity * Time.deltaTime;
-        velocity += aceleration;
+        if (aceleration < 0)
+        {
+            aceleration = 0;
+        }
 
-        transform.position += direction * velocity;
+        velocity = direction * aceleration * Time.deltaTime;
+
+        transform.position += velocity;
+
     }
     void addForce()
     {
@@ -47,9 +61,10 @@ public class PhysicBody : MonoBehaviour
     //ACELERACION : a = F/m;
 
     //MRUV : d = 1/2.a.t2;
-     
+
     //FUERZA : m * a;
 
-    
+    //Coeficiente de rozamiente: Fr = μ * N (Rozamiento entre 2 superficies = coeficiente de rozamiento (mesa) * Fuerza Normal)
+
 }
 
