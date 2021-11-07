@@ -32,6 +32,11 @@ public class PhysicBody : MonoBehaviour
         transform.position += amount;
     }
 
+    public void Rotate(float angle)
+    {
+        transform.Rotate(new Vector3(0,0,angle));
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {

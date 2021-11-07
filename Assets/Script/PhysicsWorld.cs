@@ -39,6 +39,10 @@ public class PhysicsWorld : MonoBehaviour
                             bodyB.Move(normal * depth / 2);
                         }
                     }
+                    else if (colliderA is RectCollider)
+                    {
+                        bodyA.Rotate(30 * Time.deltaTime);
+                    }
                 }
             }
         }
