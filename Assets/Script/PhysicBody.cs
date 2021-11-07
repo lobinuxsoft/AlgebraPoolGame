@@ -27,6 +27,11 @@ public class PhysicBody : MonoBehaviour
         mass = area * density;
     }
 
+    public void Move(Vector3 amount)
+    {
+        transform.position += amount;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
