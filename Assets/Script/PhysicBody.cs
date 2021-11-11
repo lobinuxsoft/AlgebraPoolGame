@@ -1,55 +1,47 @@
-﻿using UnityEngine;
+using UnityEditor;
+using UnityEngine;
 
 public class PhysicBody : MonoBehaviour
 {
-    public enum ShapeType
-    {
-        Circle, Box
-    }
+    [SerializeField] private bool isStatic = false;
 
-    //[SerializeField] ShapeType shapeType = ShapeType.Circle;
-    //[SerializeField] private Vector3 linearVelocity = Vector3.zero;
-    //[SerializeField] float rotation = 0;
-    //[SerializeField] float rotationalVelocity = 0;
+    [SerializeField] private Vector3 linearVelocity = Vector3.zero;
+    [SerializeField] private float rotation = 0;
+    [SerializeField] private float rotationalVelocity = 0;
 
-    //[SerializeField] float density = 0;
-    //[SerializeField] float restitution = 0;
-    //[SerializeField] float area;
-    //  [SerializeField] bool isStatic = false;
-
-    //float radius = 0;
-    //float width = 0;    
-    //float height = 0;
-
-    [SerializeField] Vector3 direction;
-    [SerializeField] float velocity;
-    [SerializeField] float aceleration;
-    [SerializeField] float mass = 5.0f;
-    [SerializeField] float force = 15.0f;
-
-    [SerializeField] float gravity = -9.8f;
-
-    private void Update()
-    {
-
-        aceleration = force / mass;
-        aceleration -= gravity * Time.deltaTime;
-        velocity += aceleration;
-
-        transform.position += direction * velocity;
-    }
-    void addForce()
-    {
-
-    }
-
-    //ACELERACION : a = Δv / Δt;
-    //ACELERACION : a = F/m;
-
-    //MRUV : d = 1/2.a.t2;
-     
-    //FUERZA : m * a;
-
+    [SerializeField] private float density = 0;
+    [SerializeField] private float mass = 0;
+    [SerializeField, Range(0,1)] private float restitution = 0; // Esto es con la potencia que rebota.
     
-}
+    private float area = 0;
 
+    public float Area { get; set; }
+
+    private void Start()
+    {
+        linearVelocity = Vector3.zero;
+        rotation = 0;
+        rotationalVelocity = 0;
+        restitution = Mathf.Clamp01(restitution);
+
+        mass = area * density;
+    }
+
+    public void Move(Vector3 amount)
+    {
+        transform.position += amount;
+    }
+
+    public void Rotate(float angle)
+    {
+        transform.Rotate(new Vector3(0,0,angle));
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.color = Color.blue;
+        Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(linearVelocity), 1f, EventType.Repaint);
+    }
+#endif
+}
