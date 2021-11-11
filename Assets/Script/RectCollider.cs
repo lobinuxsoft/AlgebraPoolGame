@@ -13,6 +13,8 @@ public class RectCollider : PhysicCollider
 
     Vector3[] vertices = new Vector3[4];
 
+    public Vector3[] TransformedVertices => vertices;
+
     private void Start()
     {
         CalculateVertices();

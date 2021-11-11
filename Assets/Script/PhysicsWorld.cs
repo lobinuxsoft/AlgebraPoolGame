@@ -31,7 +31,25 @@ public class PhysicsWorld : MonoBehaviour
                     PhysicCollider colliderB = physicColliders[j];
                     PhysicBody bodyB = physicBodies[j];
 
-                    if(colliderA is CircleCollider && colliderB is CircleCollider)
+                    if(colliderA is CircleCollider && colliderB is RectCollider)
+                    {
+                        RectCollider rect = (RectCollider)colliderB;
+                        if (Collisions.IntersectCirclePolygon((CircleCollider)colliderA, rect.TransformedVertices, out Vector3 normal, out float depth))
+                        {
+                            bodyA.Move(-normal * depth / 2);
+                            bodyB.Move(normal * depth / 2);
+                        }
+                    }
+                    else if (colliderA is RectCollider && colliderB is CircleCollider)
+                    {
+                        RectCollider rect = (RectCollider)colliderA;
+                        if (Collisions.IntersectCirclePolygon((CircleCollider)colliderB, rect.TransformedVertices, out Vector3 normal, out float depth))
+                        {
+                            bodyA.Move(normal * depth / 2);
+                            bodyB.Move(-normal * depth / 2);
+                        }
+                    }
+                    else if (colliderA is CircleCollider && colliderB is CircleCollider)
                     {
                         if (Collisions.IntersectCircles((CircleCollider)colliderA, (CircleCollider)colliderB, out Vector3 normal, out float depth))
                         {
@@ -39,9 +57,16 @@ public class PhysicsWorld : MonoBehaviour
                             bodyB.Move(normal * depth / 2);
                         }
                     }
-                    else if (colliderA is RectCollider)
+                    else if (colliderA is RectCollider && colliderB is RectCollider)
                     {
-                        bodyA.Rotate(30 * Time.deltaTime);
+                        RectCollider rectA = (RectCollider)colliderA;
+                        RectCollider rectB = (RectCollider)colliderB;
+
+                        if (Collisions.IntersectPolygons(rectA.TransformedVertices, rectB.TransformedVertices, out Vector3 normal, out float depth))
+                        {
+                            bodyA.Move(-normal * depth / 2);
+                            bodyB.Move(normal * depth / 2);
+                        }
                     }
                 }
             }
