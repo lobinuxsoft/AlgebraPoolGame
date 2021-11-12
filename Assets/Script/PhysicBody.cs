@@ -3,58 +3,56 @@ using static System.Math;
 
 public class PhysicBody : MonoBehaviour
 {
-    public enum ShapeType
-    {
-        Circle, Box
-    }
-
-    //[SerializeField] ShapeType shapeType = ShapeType.Circle;
-    //[SerializeField] private Vector3 linearVelocity = Vector3.zero;
-    //[SerializeField] float rotation = 0;
-    //[SerializeField] float rotationalVelocity = 0;
-
-    //[SerializeField] float density = 0;
-    //[SerializeField] float restitution = 0;
-    //[SerializeField] float area;
-    //  [SerializeField] bool isStatic = false;
-
-    //float radius = 0;
-    //float width = 0;    
-    //float height = 0;
-
     [SerializeField] Vector3 direction = Vector3.zero;
     [SerializeField] Vector3 velocity = Vector3.zero;
     [SerializeField] float aceleration = 0.0f;
     [SerializeField] float mass = 5.0f;
     [SerializeField] float force = 15.0f;
-
     [SerializeField] float radius = 5.0f;
-   
 
-
-    [SerializeField] float coefficientFriction = 0.0f; // 0.18 - 0.24
-    [SerializeField] float tableFriction = 0.2f; // 0.18 - 0.24
-
+    [SerializeField] float coefficientFriction = 0.0f;
+    [SerializeField] float tableFriction = 0.2f;
     [SerializeField] float gravity = 9.8f;
 
-  
+
     float airDensity = 1.225f;
     float constantAirFriction = 0.000000667f; //Le saco 4 ceros con respecto a su densidad original
 
-    [SerializeField]float frictionForceAir = 0.0f;
+    [SerializeField] float frictionForceAir = 0.0f;
+
+    public float FrictionTableForce=> tableFriction * (mass * gravity);
 
     private void Start()
     {
         aceleration = force / mass;
-        coefficientFriction = tableFriction * (mass * gravity);
+
+        coefficientFriction = FrictionTableForce;
 
         frictionForceAir = getFrictionAirForce(radius);
     }
+
     private void Update()
+    {
+        Movement();
+    }
+     
+    /// <summary>
+    /// Calcula la friccion con el aire teniendo en cuenta el radio de la bola.
+    /// </summary>
+    /// <param name="radius"></param>
+    /// <returns></returns>
+    float getFrictionAirForce(float radius)
+    {
+        return constantAirFriction * 0.5f * airDensity * (radius * radius) / 4;
+    }
+
+    /// <summary>
+    /// Aplica las fuerzas de rozamiento con el aire y el rozamiento con la mesa
+    /// </summary>
+    void Movement()
     {
         aceleration -= coefficientFriction * Time.deltaTime;
         aceleration -= frictionForceAir;
-        
 
         if (aceleration < 0)
         {
@@ -63,13 +61,7 @@ public class PhysicBody : MonoBehaviour
 
         velocity = direction * aceleration * Time.deltaTime;
 
-
         transform.position += velocity;
-
-    }
-    float getFrictionAirForce(float radius)
-    {
-       return constantAirFriction * 0.5f * airDensity * (radius * radius) / 4;
     }
 
 
@@ -89,9 +81,9 @@ public class PhysicBody : MonoBehaviour
 
 
     //Fr= CD * 1/2 * ρf * Av2
-    //          Fr = 0,0000000000667 * 1/2 * 1.225 * Rd²/4
+    //Fr = 0,0000000000667 * 1/2 * 1.225 * Rd²/4
 
-    //Rd²/4
+    //Rd²/4 = Friccion de una esfera
 
     //  0,0000000000667 Nm² / kg²
     // 1.225 kg / m 3
