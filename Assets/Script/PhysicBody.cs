@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static System.Math;
 
 public class PhysicBody : MonoBehaviour
 {
@@ -27,23 +28,33 @@ public class PhysicBody : MonoBehaviour
     [SerializeField] float mass = 5.0f;
     [SerializeField] float force = 15.0f;
 
+    [SerializeField] float radius = 5.0f;
+   
+
+
     [SerializeField] float coefficientFriction = 0.0f; // 0.18 - 0.24
     [SerializeField] float tableFriction = 0.2f; // 0.18 - 0.24
 
     [SerializeField] float gravity = 9.8f;
 
-    Vector3 coeficienteRozamientoAire = Vector3.zero;
-    float CONST_ROZAMIENTO_AIRE = 0.0000000000667f;
+  
+    float airDensity = 1.225f;
+    float constantAirFriction = 0.000000667f; //Le saco 4 ceros con respecto a su densidad original
+
+    [SerializeField]float frictionForceAir = 0.0f;
+
     private void Start()
     {
         aceleration = force / mass;
         coefficientFriction = tableFriction * (mass * gravity);
-    }
 
+        frictionForceAir = getFrictionAirForce(radius);
+    }
     private void Update()
     {
         aceleration -= coefficientFriction * Time.deltaTime;
-        //aceleration -= coeficienteRozamientoAire * Time.deltaTime;
+        aceleration -= frictionForceAir;
+        
 
         if (aceleration < 0)
         {
@@ -52,26 +63,16 @@ public class PhysicBody : MonoBehaviour
 
         velocity = direction * aceleration * Time.deltaTime;
 
-        coeficienteRozamientoAire = velocityNormalizeSquared(velocity) * CONST_ROZAMIENTO_AIRE * -1;      //Es una prueba desprolija xd 
-        velocity -= coeficienteRozamientoAire * Time.deltaTime;
 
         transform.position += velocity;
 
     }
-    void addForce()
+    float getFrictionAirForce(float radius)
     {
-
+       return constantAirFriction * 0.5f * airDensity * (radius * radius) / 4;
     }
-    Vector3 velocityNormalizeSquared(Vector3 a)
-    {
-        a = a.normalized;
 
-        a.x *= a.x;
-        a.y *= a.y;
-        a.z *= a.z;
 
-        return a; //Normaliza el vector y lo devuevle al cuadrado
-    }
     //Constante de resistencia aerodnamica =  0,0000000000667
 
     //ACELERACION : a = Δv / Δt;
@@ -85,5 +86,14 @@ public class PhysicBody : MonoBehaviour
 
     //Formula de rozamiento con el aire:          Fdrag = ||v||2 * Cd * -1
     //Fuerza de arrastre = velocidad.normalize² * Coeficiente de friccion * -1 (El signo indica el lado al que se aplica la fuerza)
+
+
+    //Fr= CD * 1/2 * ρf * Av2
+    //          Fr = 0,0000000000667 * 1/2 * 1.225 * Rd²/4
+
+    //Rd²/4
+
+    //  0,0000000000667 Nm² / kg²
+    // 1.225 kg / m 3
 }
 
