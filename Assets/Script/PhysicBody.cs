@@ -6,7 +6,7 @@ public class PhysicBody : MonoBehaviour
     [SerializeField] Vector3 direction = Vector3.zero;
     [SerializeField] Vector3 velocity = Vector3.zero;
     [SerializeField] float aceleration = 0.0f;
-    [SerializeField] float mass = 5.0f;
+    [SerializeField, Range(0.001f, 50)] float mass = 5.0f;
     [SerializeField] float force = 15.0f;
     [SerializeField] float radius = 5.0f;
 
@@ -24,6 +24,8 @@ public class PhysicBody : MonoBehaviour
 
     private void Start()
     {
+        mass = Mathf.Clamp(mass, 0.001f, float.MaxValue);
+
         aceleration = force / mass;
 
         coefficientFriction = FrictionTableForce;
@@ -78,7 +80,7 @@ public class PhysicBody : MonoBehaviour
     private void OnDrawGizmos()
     {
         Handles.color = Color.blue;
-        Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(velocity), 1f, EventType.Repaint);
+        Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(velocity), Mathf.Clamp01(aceleration), EventType.Repaint);
     }
 #endif
 
