@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using static System.Math;
+﻿using UnityEditor;
+using UnityEngine;
 
 public class PhysicBody : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class PhysicBody : MonoBehaviour
 
     [SerializeField] float frictionForceAir = 0.0f;
 
-    public float FrictionTableForce=> tableFriction * (mass * gravity);
+    public float FrictionTableForce => tableFriction * (mass * gravity);
 
     private void Start()
     {
@@ -28,12 +28,13 @@ public class PhysicBody : MonoBehaviour
 
         coefficientFriction = FrictionTableForce;
 
-        frictionForceAir = getFrictionAirForce(radius);
+        frictionForceAir = GetFrictionAirForce(radius);
     }
 
     private void Update()
     {
         Movement();
+    }
 
     public void Move(Vector3 amount)
     {
@@ -45,7 +46,7 @@ public class PhysicBody : MonoBehaviour
     /// </summary>
     /// <param name="radius"></param>
     /// <returns></returns>
-    float getFrictionAirForce(float radius)
+    float GetFrictionAirForce(float radius)
     {
         return constantAirFriction * 0.5f * airDensity * (radius * radius) / 4;
     }
@@ -67,16 +68,25 @@ public class PhysicBody : MonoBehaviour
 
         transform.position += velocity;
     }
-
-
-    //Constante de resistencia aerodnamica =  0,0000000000667
-
-    //ACELERACION : a = Δv / Δt;
-    //ACELERACION : a = F/m;
+    
     public void Rotate(float angle)
     {
         transform.Rotate(new Vector3(0,0,angle));
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.color = Color.blue;
+        Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(velocity), 1f, EventType.Repaint);
+    }
+#endif
+
+    // NOTAS:
+    //Constante de resistencia aerodnamica =  0,0000000000667
+
+    //ACELERACION : a = Δv / Δt;
+    //ACELERACION : a = F/m;
 
     //MRUV : d = 1/2.a.t2;
 
@@ -95,11 +105,4 @@ public class PhysicBody : MonoBehaviour
 
     //  0,0000000000667 Nm² / kg²
     // 1.225 kg / m 3
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.color = Color.blue;
-        Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(linearVelocity), 1f, EventType.Repaint);
-    }
-#endif
 }
