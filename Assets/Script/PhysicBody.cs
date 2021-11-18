@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using static System.Math;
+﻿using UnityEditor;
+using UnityEngine;
 
 public class PhysicBody : MonoBehaviour
 {
     [SerializeField] Vector3 direction = Vector3.zero;
     [SerializeField] Vector3 velocity = Vector3.zero;
     [SerializeField] float aceleration = 0.0f;
-    [SerializeField] float mass = 5.0f;
+    [SerializeField, Range(0.001f, 50)] float mass = 5.0f;
     [SerializeField] float force = 15.0f;
     [SerializeField] float radius = 5.0f;
 
@@ -16,24 +16,31 @@ public class PhysicBody : MonoBehaviour
 
 
     float airDensity = 1.225f;
-    float constantAirFriction = 0.000000667f; //Le saco 4 ceros con respecto a su densidad original
+    float constantAirFriction = 0.000000667f; //Le saco 4 ceros con respecto a su coeficiente original
 
     [SerializeField] float frictionForceAir = 0.0f;
 
-    public float FrictionTableForce=> tableFriction * (mass * gravity);
+    public float FrictionTableForce => tableFriction * (mass * gravity);
 
     private void Start()
     {
+        mass = Mathf.Clamp(mass, 0.001f, float.MaxValue);
+
         aceleration = force / mass;
 
         coefficientFriction = FrictionTableForce;
 
-        frictionForceAir = getFrictionAirForce(radius);
+        frictionForceAir = GetFrictionAirForce(radius);
     }
 
     private void Update()
     {
         Movement();
+    }
+
+    public void Move(Vector3 amount)
+    {
+        transform.position += amount;
     }
      
     /// <summary>
@@ -41,7 +48,7 @@ public class PhysicBody : MonoBehaviour
     /// </summary>
     /// <param name="radius"></param>
     /// <returns></returns>
-    float getFrictionAirForce(float radius)
+    float GetFrictionAirForce(float radius)
     {
         return constantAirFriction * 0.5f * airDensity * (radius * radius) / 4;
     }
@@ -51,20 +58,42 @@ public class PhysicBody : MonoBehaviour
     /// </summary>
     void Movement()
     {
-        aceleration -= coefficientFriction * Time.deltaTime;
-        aceleration -= frictionForceAir;
+        aceleration -= coefficientFriction * Time.deltaTime; //Se le aplica el rozamiento de la mesa a la velocidad, esto para simular la "friccion con la mesa"
+        aceleration -= frictionForceAir; //Se le aplica el rozamiento del aire a la velocidad, esto para simular la "friccion con el aire"
 
         if (aceleration < 0)
         {
             aceleration = 0;
         }
 
-        velocity = direction * aceleration * Time.deltaTime;
+        velocity = direction * aceleration * Time.deltaTime; //Se le aplica a la veolocidad la direccion y la aceleracion ya des
 
         transform.position += velocity;
     }
+    
+    public void Rotate(float angle)
+    {
+        transform.Rotate(new Vector3(0,0,angle));
+    }
 
+    public void HitByCue(Vector3 direction, float force) 
+    {
+        direction.z = 0;
 
+        this.direction = direction;
+
+        aceleration = force / mass;
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.color = Color.blue;
+        Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(velocity), Mathf.Clamp01(aceleration), EventType.Repaint);
+    }
+#endif
+
+    // NOTAS:
     //Constante de resistencia aerodnamica =  0,0000000000667
 
     //ACELERACION : a = Δv / Δt;
@@ -88,4 +117,3 @@ public class PhysicBody : MonoBehaviour
     //  0,0000000000667 Nm² / kg²
     // 1.225 kg / m 3
 }
-
