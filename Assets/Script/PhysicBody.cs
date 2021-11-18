@@ -16,7 +16,7 @@ public class PhysicBody : MonoBehaviour
 
 
     float airDensity = 1.225f;
-    float constantAirFriction = 0.000000667f; //Le saco 4 ceros con respecto a su densidad original
+    float constantAirFriction = 0.000000667f; //Le saco 4 ceros con respecto a su coeficiente original
 
     [SerializeField] float frictionForceAir = 0.0f;
 
@@ -56,15 +56,15 @@ public class PhysicBody : MonoBehaviour
     /// </summary>
     void Movement()
     {
-        aceleration -= coefficientFriction * Time.deltaTime;
-        aceleration -= frictionForceAir;
+        aceleration -= coefficientFriction * Time.deltaTime; //Se le aplica el rozamiento de la mesa a la velocidad, esto para simular la "friccion con la mesa"
+        aceleration -= frictionForceAir; //Se le aplica el rozamiento del aire a la velocidad, esto para simular la "friccion con el aire"
 
         if (aceleration < 0)
         {
             aceleration = 0;
         }
 
-        velocity = direction * aceleration * Time.deltaTime;
+        velocity = direction * aceleration * Time.deltaTime; //Se le aplica a la veolocidad la direccion y la aceleracion ya des
 
         transform.position += velocity;
     }
