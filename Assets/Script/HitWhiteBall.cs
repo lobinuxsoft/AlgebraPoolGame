@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class HitWhiteBall : MonoBehaviour
 {
-    [SerializeField]GameObject whiteBall;
-    [SerializeField] float maxDistanceForce = 0;
-    [SerializeField] float forceMultiplier = 5.5f;  
+    [SerializeField]public PhysicBody whiteBall;
+    [SerializeField] float maxDistanceForce = 3.5f;
+    [SerializeField] float forceMultiplier = 30.5f;  
     private Camera cam;    
     private Vector2 pixelCoordinatesMousePos;
     private Vector3 worldCoordinatesMousePos;
     private Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);    
-    private float distanceMouseBall;
-    private float catetoUno;
-    private float catetoDos;
+    private float distanceMouseBall;     
+
     private float force = 0;
 
     void Start()
@@ -24,42 +23,20 @@ public class HitWhiteBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1") && force == 0) 
+        if (Input.GetButton("Fire1")) 
         {
             pixelCoordinatesMousePos = Input.mousePosition;
-            worldCoordinatesMousePos = cam.ScreenToWorldPoint(new Vector3(pixelCoordinatesMousePos.x, pixelCoordinatesMousePos.y, cam.nearClipPlane));
+            worldCoordinatesMousePos = cam.ScreenToWorldPoint(new Vector3(pixelCoordinatesMousePos.x, pixelCoordinatesMousePos.y, cam.nearClipPlane)); //Sacas la coordenada en wordl coordinates              
+            
+            distanceMouseBall = Vector2.Distance(worldCoordinatesMousePos,  whiteBall.transform.position); //Sacamos distancia entre mouse y la pelota
 
-            catetoUno = worldCoordinatesMousePos.x - whiteBall.transform.position.x;
-            catetoDos = worldCoordinatesMousePos.y - whiteBall.transform.position.y;
+            direction = (whiteBall.transform.position - worldCoordinatesMousePos).normalized; //Sacas la direccion normalizada del vector           
 
-            distanceMouseBall = Mathf.Sqrt(Mathf.Pow(catetoUno, 2) + Mathf.Pow(catetoDos, 2));
-            direction.x = catetoUno;
-            direction.y = catetoDos;
+            //distanceMouseBall = Mathf.Clamp(distanceMouseBall, 0, maxDistanceForce); //Le das un minimo / maximo al valor de la distancia
 
-            direction.x /= distanceMouseBall;
-            direction.y /= distanceMouseBall;
+            force = (distanceMouseBall / maxDistanceForce) * forceMultiplier; //Calculamos la fuerza que va a resivir el rigid body
 
-            if (distanceMouseBall > maxDistanceForce)
-            {
-                force = maxDistanceForce * forceMultiplier;
-            }
-            else 
-            {
-                force = distanceMouseBall * forceMultiplier;
-            }
-
-            Debug.Log(distanceMouseBall);
-        }
-
-        if (force > 0)
-        {
-            force -= Time.deltaTime * 10;
-
-            whiteBall.transform.position -= direction * force * Time.deltaTime;
-        }
-        else 
-        {
-            force = 0;
-        }
+            whiteBall.HitByCue(direction, force);
+        }       
     }   
 }

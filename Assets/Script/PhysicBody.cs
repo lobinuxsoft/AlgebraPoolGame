@@ -76,6 +76,13 @@ public class PhysicBody : MonoBehaviour
         transform.Rotate(new Vector3(0,0,angle));
     }
 
+    public void HitByCue(Vector3 direction, float force) 
+    {
+        this.direction = direction;
+
+        aceleration = force / mass;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
