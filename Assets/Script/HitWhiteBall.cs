@@ -1,29 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PhysicBody))]
 public class HitWhiteBall : MonoBehaviour
 {
-    [SerializeField]public PhysicBody whiteBall;
     [SerializeField] float maxDistanceForce = 3.5f;
     [SerializeField] float forceMultiplier = 30.5f;  
+
+    private PhysicBody whiteBall;
     private Camera cam;    
     private Vector2 pixelCoordinatesMousePos;
     private Vector3 worldCoordinatesMousePos;
     private Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);    
     private float distanceMouseBall;     
-
     private float force = 0;
 
     void Start()
     {
         cam = Camera.main;
+        whiteBall = GetComponent<PhysicBody>();
     }    
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1")) 
+        if (Input.GetMouseButtonUp(0)) 
         {
             pixelCoordinatesMousePos = Input.mousePosition;
             worldCoordinatesMousePos = cam.ScreenToWorldPoint(new Vector3(pixelCoordinatesMousePos.x, pixelCoordinatesMousePos.y, cam.nearClipPlane)); //Sacas la coordenada en wordl coordinates              
