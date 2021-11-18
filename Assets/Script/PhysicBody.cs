@@ -78,6 +78,8 @@ public class PhysicBody : MonoBehaviour
 
     public void HitByCue(Vector3 direction, float force) 
     {
+        direction.z = 0;
+
         this.direction = direction;
 
         aceleration = force / mass;
