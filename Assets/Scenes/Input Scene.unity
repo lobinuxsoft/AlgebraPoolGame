@@ -1153,8 +1153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef883da4e08bd53429cfde793fb86c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistanceForce: 3.5
-  forceMultiplier: 30.5
+  maxDistanceForce: 1
+  forceMultiplier: 100
 --- !u!114 &1867021765
 MonoBehaviour:
   m_ObjectHideFlags: 0

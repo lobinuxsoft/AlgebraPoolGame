@@ -36,7 +36,10 @@ public class HitWhiteBall : MonoBehaviour
 
             force = (distanceMouseBall / maxDistanceForce) * forceMultiplier; //Calculamos la fuerza que va a resivir el rigid body
 
-            whiteBall.HitByCue(direction, force);
+            direction = direction * force;
+            direction.z = 0;
+
+            whiteBall.HitByCue(direction);
         }       
     }   
 }

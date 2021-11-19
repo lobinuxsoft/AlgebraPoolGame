@@ -37,9 +37,9 @@ public class PhysicsWorld : MonoBehaviour
                         if (Collisions.IntersectCirclePolygon((CircleCollider)colliderA, rect.TransformedVertices, out Vector3 normal, out float depth))
                         {
                             //bodyA.Move(-normal * depth / 2);
-                            bodyA.HitByCue(-normal, depth);
+                            bodyA.HitByCue(-normal * depth);
                             //bodyB.Move(normal * depth / 2);
-                            bodyB.HitByCue(normal, depth);
+                            bodyB.HitByCue(normal * depth);
                         }
                     }
                     else if (colliderA is RectCollider && colliderB is CircleCollider)
@@ -48,19 +48,44 @@ public class PhysicsWorld : MonoBehaviour
                         if (Collisions.IntersectCirclePolygon((CircleCollider)colliderB, rect.TransformedVertices, out Vector3 normal, out float depth))
                         {
                             //bodyA.Move(normal * depth / 2);
-                            bodyA.HitByCue(normal, depth);
+                            bodyA.HitByCue(normal * depth);
                             //bodyB.Move(-normal * depth / 2);
-                            bodyB.HitByCue(-normal, depth);
+                            bodyB.HitByCue(-normal * depth );
                         }
                     }
                     else if (colliderA is CircleCollider && colliderB is CircleCollider)
                     {
                         if (Collisions.IntersectCircles((CircleCollider)colliderA, (CircleCollider)colliderB, out Vector3 normal, out float depth))
                         {
-                            //bodyA.Move(-normal * depth / 2);
-                            bodyA.HitByCue(-normal, depth);
-                            //bodyB.Move(normal * depth / 2);
-                            bodyB.HitByCue(normal, depth);
+                            // Se calcula la fuerza que se devuelve en el impacto para A
+                            Vector3 normalForceA = -normal * Mathf.Abs(bodyA.GetForce() - bodyB.GetForce()) / 2;
+                            
+                            // Se calcula la fuerza con la direccion en la que la esfera se dirigia A
+                            Vector3 directionForceA = bodyA.GetDirection() * bodyA.GetForce() / 2;
+
+                            // Se saca el promedio de la fuerzas para que rebote A en el angulo correcto si fuera necesario
+                            Vector3 resultA = (normalForceA + directionForceA) / 2;
+
+                            // // Se calcula la fuerza que se devuelve en el impacto para B
+                            Vector3 normalForceB = normal * Mathf.Abs(bodyB.GetForce() - bodyA.GetForce()) / 2;
+
+                            // Se calcula la fuerza con la direccion en la que la esfera se dirigia B
+                            Vector3 directionForceB = bodyB.GetDirection() * bodyB.GetForce() / 2;
+
+                            // Se saca el promedio de la fuerzas para que rebote B en el angulo correcto si fuera necesario
+                            Vector3 resultB = (normalForceB + directionForceB) / 2;
+
+                            // Aplico la correccion de posicion en A
+                            bodyA.Move(-normal * depth / 2);
+
+                            // Aplico la fuerza para A
+                            bodyA.HitByCue(resultA);
+
+                            // Aplico la correccion de posicion en B
+                            bodyB.Move(normal * depth / 2);
+
+                            // Aplico la fuerza para B
+                            bodyB.HitByCue(resultB);
                         }
                     }
                     else if (colliderA is RectCollider && colliderB is RectCollider)
@@ -71,9 +96,9 @@ public class PhysicsWorld : MonoBehaviour
                         if (Collisions.IntersectPolygons(rectA.TransformedVertices, rectB.TransformedVertices, out Vector3 normal, out float depth))
                         {
                             //bodyA.Move(-normal * depth / 2);
-                            bodyA.HitByCue(-normal, depth);
+                            bodyA.HitByCue(-normal * depth);
                             //bodyB.Move(normal * depth / 2);
-                            bodyB.HitByCue(normal, depth);
+                            bodyB.HitByCue(normal * depth);
                         }
                     }
                 }

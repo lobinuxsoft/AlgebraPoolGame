@@ -76,13 +76,23 @@ public class PhysicBody : MonoBehaviour
         transform.Rotate(new Vector3(0,0,angle));
     }
 
-    public void HitByCue(Vector3 direction, float force) 
+    public void HitByCue(Vector3 force) 
     {
         direction.z = 0;
 
-        this.direction = direction;
+        this.direction = force.normalized;
 
-        aceleration = force / mass;
+        aceleration = Mathf.Abs(force.magnitude) / mass;
+    }
+
+    public float GetForce()
+    {
+        return mass * aceleration;
+    }
+
+    public Vector3 GetDirection()
+    {
+        return direction;
     }
 
 #if UNITY_EDITOR
