@@ -2,6 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PhysicBody))]
 [RequireComponent(typeof(LineRenderer))]
+
 public class HitWhiteBall : MonoBehaviour
 {
     [SerializeField] float maxDistanceForce = 3.5f;
@@ -34,20 +35,23 @@ public class HitWhiteBall : MonoBehaviour
         pixelCoordinatesMousePos = Input.mousePosition;
 
         worldCoordinatesMousePos = cam.ScreenToWorldPoint(new Vector3(pixelCoordinatesMousePos.x, pixelCoordinatesMousePos.y, cam.nearClipPlane)); //Sacas la posicion del mouse en coordenadas de mundo         
-
+        
         distanceMousePressedMouseReleased = Vector2.Distance(worldCoordinatesMousePos, positionWhereMousePressed); //Sacamos distancia entre donde se preciono y donde se libero el click del mouse
-        distanceMousePressedMouseReleased /= maxDistanceForce;
+        distanceMousePressedMouseReleased /= maxDistanceForce; //Te aseguras que la distancia no sea mayor a un maximo
 
         direction = (positionWhereMousePressed - worldCoordinatesMousePos).normalized; //Sacas la direccion normalizada del vector
-
+                                                                                       //
         ballMouseLine.SetPosition(0, whiteBall.transform.position - (direction * distanceMousePressedMouseReleased));
         ballMouseLine.SetPosition(1, whiteBall.transform.position);
 
         if (Input.GetMouseButtonDown(0)) 
         {            
             ballMouseLine.enabled = true;
+
+            ballMouseLine.SetPosition(0, whiteBall.transform.position);            
+
             positionWhereMousePressed = worldCoordinatesMousePos;
-        }
+        }        
 
         if (Input.GetMouseButtonUp(0)) 
         {            
