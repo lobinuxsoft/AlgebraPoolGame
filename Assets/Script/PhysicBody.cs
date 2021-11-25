@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PhysicBody : MonoBehaviour
 {
+    [SerializeField] bool isStatic = false;
     [SerializeField] Vector3 direction = Vector3.zero;
     [SerializeField] Vector3 velocity = Vector3.zero;
     [SerializeField] float aceleration = 0.0f;
@@ -40,7 +41,7 @@ public class PhysicBody : MonoBehaviour
 
     public void Move(Vector3 amount)
     {
-        transform.position += amount;
+        if(!isStatic) transform.position += amount;
     }
      
     /// <summary>
@@ -76,13 +77,26 @@ public class PhysicBody : MonoBehaviour
         transform.Rotate(new Vector3(0,0,angle));
     }
 
-    public void HitByCue(Vector3 direction, float force) 
+    public void HitByCue(Vector3 force) 
     {
-        direction.z = 0;
+        if (!isStatic)
+        {
+            direction.z = 0;
 
-        this.direction = direction;
+            this.direction = force.normalized;
 
-        aceleration = force / mass;
+            aceleration = Mathf.Abs(force.magnitude) / mass;
+        }
+    }
+
+    public float GetForce()
+    {
+        return mass * aceleration;
+    }
+
+    public Vector3 GetDirection()
+    {
+        return direction;
     }
 
 #if UNITY_EDITOR
