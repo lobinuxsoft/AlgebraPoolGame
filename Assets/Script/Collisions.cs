@@ -242,4 +242,18 @@ public static class Collisions
 
         return true;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool CircleContainPoint(HoleCollider A, Vector3 point)
+    {
+        float distantance = Vector3.Distance(A.Center, point);
+        float radii = A.Radius;
+
+        if (distantance >= radii)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
