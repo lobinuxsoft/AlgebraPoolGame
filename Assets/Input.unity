@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef883da4e08bd53429cfde793fb86c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistanceForce: 2
+  maxDistanceForce: 2.8
   forceMultiplier: 50
 --- !u!212 &558046018
 SpriteRenderer:
