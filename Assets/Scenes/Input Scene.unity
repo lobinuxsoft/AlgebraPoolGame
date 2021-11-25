@@ -195,8 +195,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 80960924}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.5, z: 0}
-  m_LocalScale: {x: 30, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 14.5, z: 0}
+  m_LocalScale: {x: 30, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 743884310}
   m_RootOrder: 1
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 30
-  height: 1
+  height: 10
 --- !u!114 &80960927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,10 +227,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 1
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
-  mass: 5
+  mass: 50
   force: 15
   radius: 5
   coefficientFriction: 0
@@ -319,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 0
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
@@ -438,6 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 0
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
@@ -557,6 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 0
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
@@ -789,8 +793,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002831260}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 30, z: 1}
+  m_LocalPosition: {x: -14.5, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 743884310}
   m_RootOrder: 2
@@ -807,7 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67c777df1e8fe346be7126f020f7a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 1
+  width: 10
   height: 30
 --- !u!114 &1002831263
 MonoBehaviour:
@@ -821,10 +825,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 1
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
-  mass: 5
+  mass: 50
   force: 15
   radius: 5
   coefficientFriction: 0
@@ -909,8 +914,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1275196279}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 30, z: 1}
+  m_LocalPosition: {x: 14.5, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 743884310}
   m_RootOrder: 3
@@ -927,7 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67c777df1e8fe346be7126f020f7a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 1
+  width: 10
   height: 30
 --- !u!114 &1275196282
 MonoBehaviour:
@@ -941,10 +946,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 1
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
-  mass: 5
+  mass: 50
   force: 15
   radius: 5
   coefficientFriction: 0
@@ -1033,6 +1039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 0
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
@@ -1167,6 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 0
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
@@ -1249,7 +1257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1867021763}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: -2.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1286,6 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 0
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
@@ -1405,6 +1414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 0
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
@@ -1520,8 +1530,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2125967991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -9.5, z: 0}
-  m_LocalScale: {x: 30, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -14.5, z: 0}
+  m_LocalScale: {x: 30, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 743884310}
   m_RootOrder: 0
@@ -1539,7 +1549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 30
-  height: 1
+  height: 10
 --- !u!114 &2125967994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1552,10 +1562,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b10e9b80ecc83a4bb9b1d0f76319bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStatic: 1
   direction: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   aceleration: 0
-  mass: 5
+  mass: 50
   force: 15
   radius: 5
   coefficientFriction: 0

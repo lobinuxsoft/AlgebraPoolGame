@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PhysicBody : MonoBehaviour
 {
+    [SerializeField] bool isStatic = false;
     [SerializeField] Vector3 direction = Vector3.zero;
     [SerializeField] Vector3 velocity = Vector3.zero;
     [SerializeField] float aceleration = 0.0f;
@@ -40,7 +41,7 @@ public class PhysicBody : MonoBehaviour
 
     public void Move(Vector3 amount)
     {
-        transform.position += amount;
+        if(!isStatic) transform.position += amount;
     }
      
     /// <summary>
@@ -78,11 +79,14 @@ public class PhysicBody : MonoBehaviour
 
     public void HitByCue(Vector3 force) 
     {
-        direction.z = 0;
+        if (!isStatic)
+        {
+            direction.z = 0;
 
-        this.direction = force.normalized;
+            this.direction = force.normalized;
 
-        aceleration = Mathf.Abs(force.magnitude) / mass;
+            aceleration = Mathf.Abs(force.magnitude) / mass;
+        }
     }
 
     public float GetForce()

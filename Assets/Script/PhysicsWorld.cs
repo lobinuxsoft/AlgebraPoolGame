@@ -36,10 +36,29 @@ public class PhysicsWorld : MonoBehaviour
                         RectCollider rect = (RectCollider)colliderB;
                         if (Collisions.IntersectCirclePolygon((CircleCollider)colliderA, rect.TransformedVertices, out Vector3 normal, out float depth))
                         {
-                            //bodyA.Move(-normal * depth / 2);
-                            bodyA.HitByCue(-normal * depth);
-                            //bodyB.Move(normal * depth / 2);
-                            bodyB.HitByCue(normal * depth);
+                            // Se calcula la fuerza con la direccion en la que la esfera se dirigia A
+                            Vector3 directionForceA = bodyA.GetDirection() * bodyA.GetForce() / 2;
+
+                            // Se saca el promedio de la fuerzas para que rebote A en el angulo correcto si fuera necesario
+                            Vector3 resultA = Vector3.Reflect(directionForceA, -normal);
+
+                            // Se calcula la fuerza con la direccion en la que la esfera se dirigia B
+                            Vector3 directionForceB = bodyB.GetDirection() * bodyB.GetForce() / 2;
+
+                            // Se saca el promedio de la fuerzas para que rebote B en el angulo correcto si fuera necesario
+                            Vector3 resultB = Vector3.Reflect(directionForceB, normal);
+
+                            // Aplico la correccion de posicion en A
+                            bodyA.Move(-normal * depth);
+
+                            // Aplico la fuerza para A
+                            bodyA.HitByCue(resultA);
+
+                            // Aplico la correccion de posicion en B
+                            bodyB.Move(normal * depth);
+
+                            // Aplico la fuerza para B
+                            bodyB.HitByCue(resultB);
                         }
                     }
                     else if (colliderA is RectCollider && colliderB is CircleCollider)
@@ -47,10 +66,29 @@ public class PhysicsWorld : MonoBehaviour
                         RectCollider rect = (RectCollider)colliderA;
                         if (Collisions.IntersectCirclePolygon((CircleCollider)colliderB, rect.TransformedVertices, out Vector3 normal, out float depth))
                         {
-                            //bodyA.Move(normal * depth / 2);
-                            bodyA.HitByCue(normal * depth);
-                            //bodyB.Move(-normal * depth / 2);
-                            bodyB.HitByCue(-normal * depth );
+                            // Se calcula la fuerza con la direccion en la que la esfera se dirigia A
+                            Vector3 directionForceA = bodyA.GetDirection() * bodyA.GetForce() / 2;
+
+                            // Se saca el promedio de la fuerzas para que rebote A en el angulo correcto si fuera necesario
+                            Vector3 resultA = Vector3.Reflect(directionForceA, normal);
+
+                            // Se calcula la fuerza con la direccion en la que la esfera se dirigia B
+                            Vector3 directionForceB = bodyB.GetDirection() * bodyB.GetForce() / 2;
+
+                            // Se saca el promedio de la fuerzas para que rebote B en el angulo correcto si fuera necesario
+                            Vector3 resultB = Vector3.Reflect(directionForceB, -normal);
+
+                            // Aplico la correccion de posicion en A
+                            bodyA.Move(normal * depth);
+
+                            // Aplico la fuerza para A
+                            bodyA.HitByCue(resultA);
+
+                            // Aplico la correccion de posicion en B
+                            bodyB.Move(-normal * depth);
+
+                            // Aplico la fuerza para B
+                            bodyB.HitByCue(resultB);
                         }
                     }
                     else if (colliderA is CircleCollider && colliderB is CircleCollider)
@@ -64,7 +102,7 @@ public class PhysicsWorld : MonoBehaviour
                             Vector3 directionForceA = bodyA.GetDirection() * bodyA.GetForce() / 2;
 
                             // Se saca el promedio de la fuerzas para que rebote A en el angulo correcto si fuera necesario
-                            Vector3 resultA = (normalForceA + directionForceA) / 2;
+                            Vector3 resultA = (normalForceA + directionForceA);
 
                             // // Se calcula la fuerza que se devuelve en el impacto para B
                             Vector3 normalForceB = normal * Mathf.Abs(bodyB.GetForce() - bodyA.GetForce()) / 2;
@@ -73,7 +111,7 @@ public class PhysicsWorld : MonoBehaviour
                             Vector3 directionForceB = bodyB.GetDirection() * bodyB.GetForce() / 2;
 
                             // Se saca el promedio de la fuerzas para que rebote B en el angulo correcto si fuera necesario
-                            Vector3 resultB = (normalForceB + directionForceB) / 2;
+                            Vector3 resultB = (normalForceB + directionForceB);
 
                             // Aplico la correccion de posicion en A
                             bodyA.Move(-normal * depth / 2);
@@ -95,10 +133,13 @@ public class PhysicsWorld : MonoBehaviour
 
                         if (Collisions.IntersectPolygons(rectA.TransformedVertices, rectB.TransformedVertices, out Vector3 normal, out float depth))
                         {
-                            //bodyA.Move(-normal * depth / 2);
-                            bodyA.HitByCue(-normal * depth);
-                            //bodyB.Move(normal * depth / 2);
-                            bodyB.HitByCue(normal * depth);
+                            
+                            // Aplico la correccion de posicion en A
+                            bodyA.Move(-normal * depth / 2);
+
+                            // Aplico la correccion de posicion en B
+                            bodyB.Move(normal * depth / 2);
+
                         }
                     }
                 }
