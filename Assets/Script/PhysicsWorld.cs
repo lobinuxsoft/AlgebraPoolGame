@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PhysicsWorld : MonoBehaviour
 {
     [SerializeField] private PhysicCollider[] physicColliders;
     [SerializeField] private PhysicBody[] physicBodies;
+
+    public UnityEvent<GameObject> onEnterTheHole;
 
     private void Start()
     {
@@ -89,6 +92,20 @@ public class PhysicsWorld : MonoBehaviour
 
                             // Aplico la fuerza para B
                             bodyB.HitByCue(resultB);
+                        }
+                    }
+                    else if (colliderA is CircleCollider && colliderB is HoleCollider)
+                    {
+                        if(Collisions.CircleContainPoint((HoleCollider)colliderB, ((CircleCollider)colliderA).Center))
+                        {
+                            onEnterTheHole?.Invoke(colliderA.gameObject);
+                        }
+                    }
+                    else if (colliderA is HoleCollider && colliderB is CircleCollider)
+                    {
+                        if (Collisions.CircleContainPoint((HoleCollider)colliderA, ((CircleCollider)colliderB).Center))
+                        {
+                            onEnterTheHole?.Invoke(colliderB.gameObject);
                         }
                     }
                     else if (colliderA is CircleCollider && colliderB is CircleCollider)
