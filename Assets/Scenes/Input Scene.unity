@@ -1714,6 +1714,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WhiteBall
       objectReference: {fileID: 0}
+    - target: {fileID: 6088369582604685342, guid: abc75191954da904c8e234abe2c6c022, type: 3}
+      propertyPath: mass
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abc75191954da904c8e234abe2c6c022, type: 3}
 --- !u!1 &1711234742
@@ -1745,6 +1749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c26b6a7a0141a4881ed6690eef65f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startWhiteBallPosition: {x: 0, y: -5, z: 0}
 --- !u!4 &1711234744
 Transform:
   m_ObjectHideFlags: 0
