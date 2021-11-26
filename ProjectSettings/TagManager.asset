@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - WhiteBall
+  - Smooth
+  - Striped
+  - Ball8
   layers:
   - Default
   - TransparentFX

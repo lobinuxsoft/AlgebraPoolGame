@@ -99,6 +99,11 @@ public class PhysicBody : MonoBehaviour
         return direction;
     }
 
+    public void SetAcceleration(float value)
+    {
+        aceleration = value;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {

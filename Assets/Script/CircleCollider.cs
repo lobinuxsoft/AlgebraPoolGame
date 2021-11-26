@@ -11,12 +11,19 @@ public class CircleCollider : PhysicCollider
     public float Radius => radius / 2;
     public Vector3 Center => transform.position;
 
+    public void SetRadius(float value)
+    {
+        radius = value;
+    }
+
+
+#if UNITY_EDITOR
+
     private void Reset()
     {
         radius =  Mathf.Abs(transform.localScale.x) > Mathf.Abs(transform.localScale.y) ? Mathf.Abs(transform.localScale.x) : Mathf.Abs(transform.localScale.y);
     }
 
-#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.green;

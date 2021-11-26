@@ -34,13 +34,14 @@ public class RectCollider : PhysicCollider
         vertices[3] = transform.position + (-transform.right * width / 2) + (-transform.up * height / 2);
     }
 
+
+#if UNITY_EDITOR
     private void Reset()
     {
         width = Mathf.Abs(transform.localScale.x);
         height = Mathf.Abs(transform.localScale.y);
     }
 
-#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if(!Application.isPlaying) CalculateVertices();
