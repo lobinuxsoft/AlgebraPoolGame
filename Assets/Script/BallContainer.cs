@@ -5,6 +5,16 @@ public class BallContainer : MonoBehaviour
     [SerializeField] string tagIdentifier = "";
     [SerializeField] PhysicsWorld physicsWorld = default;
     [SerializeField] Vector3 startWhiteBallPosition = Vector3.zero;
+    [SerializeField] float ballsSpace = 3f;
+
+    private void LateUpdate()
+    {
+        if(Time.frameCount%60 == 0)
+        {
+            ReOrganizedChilds();
+        }
+    }
+
     public void OnBallEnterTheHole(GameObject go)
     {
         PhysicBody physicBody = go.GetComponent<PhysicBody>();
@@ -26,10 +36,13 @@ public class BallContainer : MonoBehaviour
             go.transform.SetParent(transform);
             go.transform.localPosition = Vector3.zero;
         }
+    }
 
+    void ReOrganizedChilds()
+    {
         for (int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).localPosition = new Vector3(0, -(3f * i), 0);
+            transform.GetChild(i).localPosition = new Vector3(0, -(ballsSpace * i), 0);
         }
     }
 }
