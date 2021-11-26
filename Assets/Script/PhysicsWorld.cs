@@ -1,35 +1,32 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PhysicsWorld : MonoBehaviour
 {
-    [SerializeField] private PhysicCollider[] physicColliders;
-    [SerializeField] private PhysicBody[] physicBodies;
+    [SerializeField] private List<PhysicCollider> physicColliders;
+    [SerializeField] private List<PhysicBody> physicBodies;
 
     public UnityEvent<GameObject> onEnterTheHole;
 
     private void Start()
     {
-        physicColliders = FindObjectsOfType<PhysicCollider>();
 
-        physicBodies = new PhysicBody[physicColliders.Length];
+        physicColliders = new List<PhysicCollider>(FindObjectsOfType<PhysicCollider>());
 
-        for (int i = 0; i < physicColliders.Length; i++)
-        {
-            physicBodies[i] = physicColliders[i].GetComponent<PhysicBody>();
-        }
+        physicBodies = new List<PhysicBody>(FindObjectsOfType<PhysicBody>());
     }
 
     private void Update()
     {
-        if(physicColliders.Length > 0)
+        if(physicColliders.Count > 0)
         {
-            for (int i = 0; i < physicColliders.Length - 1; i++)
+            for (int i = 0; i < physicColliders.Count - 1; i++)
             {
                 PhysicCollider colliderA = physicColliders[i];
                 PhysicBody bodyA = physicBodies[i];
 
-                for (int j = i + 1; j < physicColliders.Length; j++)
+                for (int j = i + 1; j < physicColliders.Count; j++)
                 {
                     PhysicCollider colliderB = physicColliders[j];
                     PhysicBody bodyB = physicBodies[j];
@@ -162,5 +159,11 @@ public class PhysicsWorld : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RemoveFromWorld(PhysicCollider physicCollider, PhysicBody physicBody)
+    {
+        physicBodies.Remove(physicBody);
+        physicColliders.Remove(physicCollider);
     }
 }

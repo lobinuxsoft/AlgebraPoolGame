@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - WhiteBall
+  - Smooth
+  - Striped
+  - Ball8
   layers:
   - Default
   - TransparentFX
