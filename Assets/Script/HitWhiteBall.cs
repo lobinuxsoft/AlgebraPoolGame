@@ -59,7 +59,7 @@ public class HitWhiteBall : MonoBehaviour
         {            
             ballMouseLine.enabled = false;
             
-            force = distanceMousePressedMouseReleased * forceMultiplier; //Calculamos la fuerza que va a resivir el rigid body
+            force = distanceMousePressedMouseReleased * forceMultiplier; //Calculamos la fuerza que va a recibir el rigid body
             
             whiteBall.HitByCue(direction * force); //Le mandamos la direccion y la fuerza al rigid body
         }        
