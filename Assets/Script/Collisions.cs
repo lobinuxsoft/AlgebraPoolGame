@@ -26,7 +26,7 @@ public static class Collisions
         for (int i = 0; i < vertices.Length; i++)
         {
             Vector3 va = vertices[i];
-            Vector3 vb = vertices[(i + 1) % vertices.Length];
+            Vector3 vb = vertices[(i + 1) % vertices.Length]; //Esto se hace para no sobrepasarse del tamaño del array, cuando esto sucede vuelve a 0
 
             Vector3 edge = vb - va;
             axis = new Vector3(-edge.y, edge.x); // calculo el ejede referencia, creando un nuevo vector con las cordenada intercambiadas y negando la coordenada X para mantener un orde en sentido horario.

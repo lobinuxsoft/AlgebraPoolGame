@@ -34,7 +34,7 @@ public class PhysicsWorld : MonoBehaviour
                     if(colliderA is CircleCollider && colliderB is RectCollider)
                     {
                         RectCollider rect = (RectCollider)colliderB;
-                        if (Collisions.IntersectCirclePolygon((CircleCollider)colliderA, rect.TransformedVertices, out Vector3 normal, out float depth))
+                        if (Collisions.IntersectCirclePolygon((CircleCollider)colliderA, rect.TransformedVertices, out Vector3 normal, out float depth)) // Mediante el teorema de los ejes separados determina si hay colision
                         {
                             // Se calcula la fuerza con la direccion en la que la esfera se dirigia A
                             Vector3 directionForceA = bodyA.GetDirection() * bodyA.GetForce() / 2;

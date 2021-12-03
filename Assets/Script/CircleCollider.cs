@@ -33,7 +33,3 @@ public class CircleCollider : PhysicCollider
 #endif
 }
 
-
-//Rozamiento
-//COlisionamiento(entre bolas, con las paredes y los agujeros de las bochas)
-//traspazo de energia
