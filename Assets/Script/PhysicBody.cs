@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PhysicBody : MonoBehaviour
 {
+    [SerializeField] bool isStatic = false;
     [SerializeField] Vector3 direction = Vector3.zero;
     [SerializeField] Vector3 velocity = Vector3.zero;
     [SerializeField] float aceleration = 0.0f;
@@ -11,11 +12,11 @@ public class PhysicBody : MonoBehaviour
     [SerializeField] float radius = 5.0f;
 
     [SerializeField] float coefficientFriction = 0.0f;
-    [SerializeField] float tableFriction = 0.2f;
+    [SerializeField] float tableFriction = 0.2f; // Coeficiente de rozamiento que suele tener una mesa de Pool
     [SerializeField] float gravity = 9.8f;
 
 
-    float airDensity = 1.225f;
+    float airDensity = 1.225f; //Densidad del aire a una temperatura templada
     float constantAirFriction = 0.000000667f; //Le saco 4 ceros con respecto a su coeficiente original
 
     [SerializeField] float frictionForceAir = 0.0f;
@@ -40,7 +41,7 @@ public class PhysicBody : MonoBehaviour
 
     public void Move(Vector3 amount)
     {
-        transform.position += amount;
+        if(!isStatic) transform.position += amount;
     }
      
     /// <summary>
@@ -61,12 +62,12 @@ public class PhysicBody : MonoBehaviour
         aceleration -= coefficientFriction * Time.deltaTime; //Se le aplica el rozamiento de la mesa a la velocidad, esto para simular la "friccion con la mesa"
         aceleration -= frictionForceAir; //Se le aplica el rozamiento del aire a la velocidad, esto para simular la "friccion con el aire"
 
-        if (aceleration < 0)
+        if (aceleration < 0) //Se limita la aceleracion para que no pueda ser negativa
         {
             aceleration = 0;
         }
 
-        velocity = direction * aceleration * Time.deltaTime; //Se le aplica a la veolocidad la direccion y la aceleracion ya des
+        velocity = direction * aceleration * Time.deltaTime; //Se le aplica a la veolocidad la direccion y la aceleracion (la cual esta siendo reducida todos los frames por el rozamiento)
 
         transform.position += velocity;
     }
@@ -78,11 +79,14 @@ public class PhysicBody : MonoBehaviour
 
     public void HitByCue(Vector3 force) 
     {
-        direction.z = 0;
+        if (!isStatic)
+        {
+            direction.z = 0;
 
-        this.direction = force.normalized;
+            this.direction = force.normalized;
 
-        aceleration = Mathf.Abs(force.magnitude) / mass;
+            aceleration = Mathf.Abs(force.magnitude) / mass;
+        }
     }
 
     public float GetForce()
@@ -95,11 +99,16 @@ public class PhysicBody : MonoBehaviour
         return direction;
     }
 
+    public void SetAcceleration(float value)
+    {
+        aceleration = value;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.blue;
-        Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(velocity), Mathf.Clamp01(aceleration), EventType.Repaint);
+        Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(velocity), Mathf.Clamp01(aceleration), EventType.Repaint); // Dibuja una flecha indicando la direccion a la que se esta moviendo cada bola
     }
 #endif
 
