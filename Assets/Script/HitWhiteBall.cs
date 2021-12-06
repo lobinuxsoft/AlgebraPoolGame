@@ -5,8 +5,15 @@ using UnityEngine;
 
 public class HitWhiteBall : MonoBehaviour
 {
+    [SerializeField] bool canShoot = true;
     [SerializeField] float maxDistanceForce = 1.2f;
     [SerializeField] float forceMultiplier = 30.5f;  
+
+    public bool CanShoot
+    {
+        get { return canShoot; }
+        set { canShoot = value; }
+    }
 
     private PhysicBody whiteBall;
     private CircleCollider circleCollider;
@@ -34,34 +41,39 @@ public class HitWhiteBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pixelCoordinatesMousePos = Input.mousePosition;
+        if (canShoot)
+        {
+            pixelCoordinatesMousePos = Input.mousePosition;
 
-        worldCoordinatesMousePos = cam.ScreenToWorldPoint(new Vector3(pixelCoordinatesMousePos.x, pixelCoordinatesMousePos.y, cam.nearClipPlane)); //Sacas la posicion del mouse en coordenadas de mundo         
+            worldCoordinatesMousePos = cam.ScreenToWorldPoint(new Vector3(pixelCoordinatesMousePos.x, pixelCoordinatesMousePos.y, cam.nearClipPlane)); //Sacas la posicion del mouse en coordenadas de mundo         
         
-        distanceMousePressedMouseReleased = Vector2.Distance(worldCoordinatesMousePos, positionWhereMousePressed); //Sacamos distancia entre donde se preciono y donde se libero el click del mouse
-        distanceMousePressedMouseReleased = Mathf.Clamp(distanceMousePressedMouseReleased, 0.0f, maxDistanceForce); //Te aseguras que la distancia no sea mayor a un maximo
+            distanceMousePressedMouseReleased = Vector2.Distance(worldCoordinatesMousePos, positionWhereMousePressed); //Sacamos distancia entre donde se preciono y donde se libero el click del mouse
+            distanceMousePressedMouseReleased = Mathf.Clamp(distanceMousePressedMouseReleased, 0.0f, maxDistanceForce); //Te aseguras que la distancia no sea mayor a un maximo
                 
-        direction = (positionWhereMousePressed - worldCoordinatesMousePos).normalized; //Sacas la direccion normalizada del vector
+            direction = (positionWhereMousePressed - worldCoordinatesMousePos).normalized; //Sacas la direccion normalizada del vector
                                                                                        
-        ballMouseLine.SetPosition(0, whiteBall.transform.position); //Posici�n final de la flecha
-        ballMouseLine.SetPosition(1, whiteBall.transform.position + (direction * distanceMousePressedMouseReleased)); //Posicion inicial de la flecha
+            ballMouseLine.SetPosition(0, whiteBall.transform.position); //Posici�n final de la flecha
+            ballMouseLine.SetPosition(1, whiteBall.transform.position + (direction * distanceMousePressedMouseReleased)); //Posicion inicial de la flecha
 
-        if (Input.GetMouseButtonDown(0)) 
-        {            
-            ballMouseLine.enabled = true;
+            if (Input.GetMouseButtonDown(0)) 
+            {            
+                ballMouseLine.enabled = true;
 
-            ballMouseLine.SetPosition(0, whiteBall.transform.position);            
+                ballMouseLine.SetPosition(0, whiteBall.transform.position);            
 
-            positionWhereMousePressed = worldCoordinatesMousePos; 
-        }        
+                positionWhereMousePressed = worldCoordinatesMousePos; 
+            }        
 
-        if (Input.GetMouseButtonUp(0)) 
-        {            
-            ballMouseLine.enabled = false;
+            if (Input.GetMouseButtonUp(0)) 
+            {            
+                ballMouseLine.enabled = false;
             
-            force = distanceMousePressedMouseReleased * forceMultiplier; //Calculamos la fuerza que va a recibir el rigid body
+                force = distanceMousePressedMouseReleased * forceMultiplier; //Calculamos la fuerza que va a recibir el rigid body
             
-            whiteBall.HitByCue(direction * force); //Le mandamos la direccion y la fuerza al rigid body
-        }        
+                whiteBall.HitByCue(direction * force); //Le mandamos la direccion y la fuerza al rigid body
+
+                CanShoot = false; // Desactivo el disparo una vez realizado
+            }        
+        }
     }    
 }
