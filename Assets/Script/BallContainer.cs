@@ -1,11 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BallContainer : MonoBehaviour
 {
+    [SerializeField] int ballsNeeded = 7;
     [SerializeField] string tagIdentifier = "";
     [SerializeField] PhysicsWorld physicsWorld = default;
     [SerializeField] Vector3 startWhiteBallPosition = Vector3.zero;
     [SerializeField] float ballsSpace = 3f;
+
+    public UnityEvent onWin;
+    public UnityEvent onLose;
 
     private void LateUpdate()
     {
@@ -28,6 +33,29 @@ public class BallContainer : MonoBehaviour
         {
             go.transform.position = startWhiteBallPosition;
         }
+
+        else if(go.CompareTag("Ball8"))
+        {
+            if (transform.childCount >= ballsNeeded)
+            {
+                //GANO
+                Debug.LogWarning($"gano {gameObject.name}");
+                onWin?.Invoke();
+            }
+            else
+            {
+                //PERDIO
+                Debug.LogWarning($"perdio {gameObject.name}");
+                onLose?.Invoke();
+            }
+
+            physicsWorld.RemoveFromWorld(go.GetComponent<PhysicCollider>(), physicBody);
+            go.transform.SetParent(transform);
+            go.transform.localPosition = Vector3.zero;
+        }
+
+     
+
         else if(go.CompareTag(tagIdentifier))
         {
             physicsWorld.RemoveFromWorld(go.GetComponent<PhysicCollider>(), physicBody);
@@ -35,6 +63,7 @@ public class BallContainer : MonoBehaviour
             //circleCollider.SetRadius(0);
             go.transform.SetParent(transform);
             go.transform.localPosition = Vector3.zero;
+
         }
     }
 
