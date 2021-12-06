@@ -11,7 +11,6 @@ public class PhysicsWorld : MonoBehaviour
 
     private void Start()
     {
-
         physicColliders = new List<PhysicCollider>(FindObjectsOfType<PhysicCollider>());
 
         physicBodies = new List<PhysicBody>(FindObjectsOfType<PhysicBody>());
