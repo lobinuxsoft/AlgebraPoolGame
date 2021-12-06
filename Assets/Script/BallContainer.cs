@@ -3,12 +3,16 @@ using UnityEngine.Events;
 
 public class BallContainer : MonoBehaviour
 {
+    [SerializeField] bool listenPhysicWorld = true;
     [SerializeField] int ballsNeeded = 7;
     [SerializeField] string tagIdentifier = "";
     [SerializeField] PhysicsWorld physicsWorld = default;
     [SerializeField] Vector3 startWhiteBallPosition = Vector3.zero;
     [SerializeField] float ballsSpace = 3f;
 
+    public UnityEvent<string> onBallSelected;
+    public UnityEvent onCorrectBallEnter;
+    public UnityEvent<GameObject> onIncorrectBallEnter;
     public UnityEvent onWin;
     public UnityEvent onLose;
 
@@ -20,7 +24,17 @@ public class BallContainer : MonoBehaviour
         }
     }
 
-    public void OnBallEnterTheHole(GameObject go)
+    public void OnBallEnterTheHolePhysicWorld(GameObject go)
+    {
+        if(listenPhysicWorld) OnBallEnterTheHole(go);
+    }
+
+    public void OnBallEnterTheHoleForced(GameObject go)
+    {
+        OnBallEnterTheHole(go);
+    }
+
+    private void OnBallEnterTheHole(GameObject go)
     {
         PhysicBody physicBody = go.GetComponent<PhysicBody>();
         
@@ -33,7 +47,6 @@ public class BallContainer : MonoBehaviour
         {
             go.transform.position = startWhiteBallPosition;
         }
-
         else if(go.CompareTag("Ball8"))
         {
             if (transform.childCount >= ballsNeeded)
@@ -53,17 +66,23 @@ public class BallContainer : MonoBehaviour
             go.transform.SetParent(transform);
             go.transform.localPosition = Vector3.zero;
         }
-
-     
-
+        else if (string.IsNullOrEmpty(tagIdentifier))
+        {
+            tagIdentifier = go.tag;
+            ballsNeeded = GameObject.FindGameObjectsWithTag(tagIdentifier).Length;
+            onBallSelected?.Invoke(go.tag);
+            onCorrectBallEnter?.Invoke();
+        }
         else if(go.CompareTag(tagIdentifier))
         {
             physicsWorld.RemoveFromWorld(go.GetComponent<PhysicCollider>(), physicBody);
-            //CircleCollider circleCollider = go.GetComponent<CircleCollider>();
-            //circleCollider.SetRadius(0);
             go.transform.SetParent(transform);
             go.transform.localPosition = Vector3.zero;
-
+            if(listenPhysicWorld) onCorrectBallEnter?.Invoke();
+        }
+        else
+        {
+            onIncorrectBallEnter?.Invoke(go);
         }
     }
 
@@ -73,5 +92,24 @@ public class BallContainer : MonoBehaviour
         {
             transform.GetChild(i).localPosition = new Vector3(0, -(ballsSpace * i), 0);
         }
+    }
+
+    public void SetListenPhysicWorld(bool value)
+    {
+        listenPhysicWorld = value;
+    }
+
+    public void SetBallSelected(string tag)
+    {
+        if(tag == "Striped")
+        {
+            tagIdentifier = "Smooth";
+        }
+        else
+        {
+            tagIdentifier = "Striped";
+        }
+
+        ballsNeeded = GameObject.FindGameObjectsWithTag(tagIdentifier).Length;
     }
 }
