@@ -21,17 +21,17 @@ public class PhysicBody : MonoBehaviour
 
     [SerializeField] float frictionForceAir = 0.0f;
 
-    public float FrictionTableForce => tableFriction * (mass * gravity);
+    public float FrictionTableForce => tableFriction * (mass * gravity); // Calculo la friccion de la mesa: Coeficiente de rozamiento de la mesa * (masa * gravedad)  
 
     private void Start()
     {
-        mass = Mathf.Clamp(mass, 0.001f, float.MaxValue);
+        mass = Mathf.Clamp(mass, 0.001f, float.MaxValue); //Clampeamos la masa para que solo pueda ser positiva
 
-        aceleration = force / mass;
+        aceleration = force / mass; //Se calcula la aceleracio (f / m)
 
-        coefficientFriction = FrictionTableForce;
+        coefficientFriction = FrictionTableForce; // Se le aplica el calculo de la friccion con la mesa al coeficiente de friccion
 
-        frictionForceAir = GetFrictionAirForce(radius);
+        frictionForceAir = GetFrictionAirForce(radius); //  Aca se calcula el rozamiento con el aire
     }
 
     private void Update()
@@ -49,7 +49,7 @@ public class PhysicBody : MonoBehaviour
     /// </summary>
     /// <param name="radius"></param>
     /// <returns></returns>
-    float GetFrictionAirForce(float radius)
+    float GetFrictionAirForce(float radius) //Formula de rozamiento con el aire: Fr= CD * 1/2 * ρf * Rd²/4
     {
         return constantAirFriction * 0.5f * airDensity * (radius * radius) / 4;
     }
@@ -69,7 +69,7 @@ public class PhysicBody : MonoBehaviour
 
         velocity = direction * aceleration * Time.deltaTime; //Se le aplica a la veolocidad la direccion y la aceleracion (la cual esta siendo reducida todos los frames por el rozamiento)
 
-        transform.position += velocity;
+        transform.position += velocity; //Se le aplica la velocidad al objeto
     }
     
     public void Rotate(float angle)
