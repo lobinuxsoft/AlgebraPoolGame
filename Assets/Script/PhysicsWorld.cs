@@ -9,12 +9,12 @@ public class PhysicsWorld : MonoBehaviour
 
     public UnityEvent<GameObject> onEnterTheHole;
 
-    private void Start()
-    {
-        physicColliders = new List<PhysicCollider>(FindObjectsOfType<PhysicCollider>());
+    //private void Start()
+    //{
+    //    physicColliders = new List<PhysicCollider>(FindObjectsOfType<PhysicCollider>());
 
-        physicBodies = new List<PhysicBody>(FindObjectsOfType<PhysicBody>());
-    }
+    //    physicBodies = new List<PhysicBody>(FindObjectsOfType<PhysicBody>());
+    //}
 
     private void Update()
     {
