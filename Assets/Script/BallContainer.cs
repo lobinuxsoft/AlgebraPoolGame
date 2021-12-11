@@ -13,8 +13,8 @@ public class BallContainer : MonoBehaviour
     public UnityEvent<string> onBallSelected;
     public UnityEvent onCorrectBallEnter;
     public UnityEvent<GameObject> onIncorrectBallEnter;
-    public UnityEvent onWin;
-    public UnityEvent onLose;
+    public UnityEvent<string> onWin;
+    public UnityEvent<string> onLose;
 
     private void LateUpdate()
     {
@@ -52,14 +52,12 @@ public class BallContainer : MonoBehaviour
             if (transform.childCount >= ballsNeeded)
             {
                 //GANO
-                Debug.LogWarning($"gano {gameObject.name}");
-                onWin?.Invoke();
+                onWin?.Invoke($"Gano el \n{gameObject.name}");
             }
             else
             {
                 //PERDIO
-                Debug.LogWarning($"perdio {gameObject.name}");
-                onLose?.Invoke();
+                onLose?.Invoke($"Perdio el {gameObject.name} \nMetio la bola 8");
             }
 
             physicsWorld.RemoveFromWorld(go.GetComponent<PhysicCollider>(), physicBody);
