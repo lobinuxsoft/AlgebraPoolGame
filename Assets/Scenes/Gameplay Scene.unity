@@ -517,8 +517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listenPhysicWorld: 1
-  ballsNeeded: 7
-  tagIdentifier: Striped
+  ballsNeeded: 100
+  tagIdentifier: 
   physicsWorld: {fileID: 563993105}
   startWhiteBallPosition: {x: 12.38, y: 0, z: 0}
   ballsSpace: 3
@@ -540,13 +540,13 @@ MonoBehaviour:
   onCorrectBallEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 563993107}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: CorrectBallWasEnter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4123,8 +4123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listenPhysicWorld: 1
-  ballsNeeded: 7
-  tagIdentifier: Smooth
+  ballsNeeded: 100
+  tagIdentifier: 
   physicsWorld: {fileID: 563993105}
   startWhiteBallPosition: {x: 12.38, y: 0, z: 0}
   ballsSpace: 3
@@ -4146,13 +4146,13 @@ MonoBehaviour:
   onCorrectBallEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 563993107}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: CorrectBallWasEnter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
