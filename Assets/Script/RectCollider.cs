@@ -26,7 +26,7 @@ public class RectCollider : PhysicCollider
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void CalculateVertices()
+    private void CalculateVertices() //A partir de los centros se calculan las coordenadas locales de los vertices.
     {
         vertices[0] = transform.position + (-transform.right * width / 2) + (transform.up * height / 2);
         vertices[1] = transform.position + (transform.right * width / 2) + (transform.up * height / 2);
@@ -36,7 +36,7 @@ public class RectCollider : PhysicCollider
 
 
 #if UNITY_EDITOR
-    private void Reset()
+    private void Reset() 
     {
         width = Mathf.Abs(transform.localScale.x);
         height = Mathf.Abs(transform.localScale.y);
