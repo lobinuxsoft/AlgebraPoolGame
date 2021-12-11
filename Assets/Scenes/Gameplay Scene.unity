@@ -517,8 +517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listenPhysicWorld: 1
-  ballsNeeded: 7
-  tagIdentifier: Striped
+  ballsNeeded: 100
+  tagIdentifier: 
   physicsWorld: {fileID: 563993105}
   startWhiteBallPosition: {x: 12.38, y: 0, z: 0}
   ballsSpace: 3
@@ -4123,8 +4123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listenPhysicWorld: 1
-  ballsNeeded: 7
-  tagIdentifier: Smooth
+  ballsNeeded: 100
+  tagIdentifier: 
   physicsWorld: {fileID: 563993105}
   startWhiteBallPosition: {x: 12.38, y: 0, z: 0}
   ballsSpace: 3
