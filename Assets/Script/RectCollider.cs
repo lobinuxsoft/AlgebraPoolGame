@@ -25,7 +25,6 @@ public class RectCollider : PhysicCollider
         CalculateVertices();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void CalculateVertices() //A partir de los centros se calculan las coordenadas locales de los vertices.
     {
         vertices[0] = transform.position + (-transform.right * width / 2) + (transform.up * height / 2);
