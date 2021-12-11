@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerTurn playerTurn = default;
     [SerializeField] HitWhiteBall whiteBall = default;
     [SerializeField] Text playerTurnText = default;
+    [SerializeField] Text resultMatchText = default;
+    [SerializeField] GameObject buttonContainer = default;
 
     [SerializeField] BallContainer ballContainerP1 = default;
     [SerializeField] BallContainer ballContainerP2 = default;
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour
     {
         Random.InitState(Mathf.RoundToInt(Time.time));
 
-        playerTurn = (PlayerTurn)Random.Range((int)PlayerTurn.Player1, (int)PlayerTurn.Player2 + 1);
+        playerTurn = (PlayerTurn)Random.Range((int)PlayerTurn.Jugador1, (int)PlayerTurn.Jugador2 + 1);
 
         playerTurnText.text = playerTurn.ToString();
     }
@@ -49,13 +51,13 @@ public class GameManager : MonoBehaviour
     {
         switch (playerTurn)
         {
-            case PlayerTurn.Player1:
-                playerTurn = PlayerTurn.Player2;
+            case PlayerTurn.Jugador1:
+                playerTurn = PlayerTurn.Jugador2;
                 ballContainerP1.SetListenPhysicWorld(false);
                 ballContainerP2.SetListenPhysicWorld(true);
                 break;
-            case PlayerTurn.Player2:
-                playerTurn = PlayerTurn.Player1;
+            case PlayerTurn.Jugador2:
+                playerTurn = PlayerTurn.Jugador1;
                 ballContainerP1.SetListenPhysicWorld(true);
                 ballContainerP2.SetListenPhysicWorld(false);
                 break;
@@ -89,6 +91,14 @@ public class GameManager : MonoBehaviour
     {
         correctBallEnter = true;
     }
+
+    public void ResultMatch(string text)
+    {
+        resultMatchText.text = text;
+        resultMatchText.gameObject.SetActive(true);
+        buttonContainer.gameObject.SetActive(true);
+    }
+
 }
 
-public enum PlayerTurn { Player1, Player2 };
+public enum PlayerTurn { Jugador1, Jugador2 };
