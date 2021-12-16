@@ -20,16 +20,16 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Random.InitState(Mathf.RoundToInt(Time.time));
+        Random.InitState(Mathf.RoundToInt(Time.time)); //Inicializo el Seed del Random
 
-        playerTurn = (PlayerTurn)Random.Range((int)PlayerTurn.Jugador1, (int)PlayerTurn.Jugador2 + 1);
+        playerTurn = (PlayerTurn)Random.Range((int)PlayerTurn.Jugador1, (int)PlayerTurn.Jugador2 + 1); //Tiro un random para decidir quien empieza (se hace +1 ya que random.range excluye el ultimo numero)
 
-        playerTurnText.text = playerTurn.ToString();
+        playerTurnText.text = playerTurn.ToString(); //Seteo el reusltado del random en el texto que se muestra en pantalla
     }
 
     private void LateUpdate()
     {
-        if(!whiteBall.CanShoot && AllBallsAreStoped())
+        if(!whiteBall.CanShoot && AllBallsAreStoped()) //Una vez que tiro el jugador y todas las bolas estan quietas termina su turno
         {
             EndTurn();
         }
@@ -37,13 +37,13 @@ public class GameManager : MonoBehaviour
 
     private void EndTurn()
     {
-        if (correctBallEnter)
+        if (correctBallEnter) //Si metio una bola suya vuelve a tirar
         {
             NextShot();
         }
         else
         {
-            ChangeTurn();
+            ChangeTurn(); //Si no metio cambia el turno
         }
     }
 
@@ -70,11 +70,11 @@ public class GameManager : MonoBehaviour
 
     public void NextShot()
     {
-        whiteBall.CanShoot = true;
-        correctBallEnter = false;
+        whiteBall.CanShoot = true; //Habilita un nuevo tiro
+        correctBallEnter = false; //Reinicia la variable a 0
     }
 
-    private bool AllBallsAreStoped()
+    private bool AllBallsAreStoped() //verifica que todas la bolas esten quiertas
     {
         for (int i = 0; i < balls.Count; i++)
         {
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         correctBallEnter = true;
     }
 
-    public void ResultMatch(string text)
+    public void ResultMatch(string text) //Cuando termina Dibujo al ganador y activo los botones
     {
         resultMatchText.text = text;
         resultMatchText.gameObject.SetActive(true);

@@ -4,7 +4,7 @@ using UnityEngine;
 public static class Collisions
 {
     /// <summary>
-    /// Calcula la interseccion entre un circulo y un poligono, y devuelve la normal de la interseccion y la profundidad del la colicion
+    /// Calcula la interseccion entre un circulo y un poligono, y devuelve la normal de la interseccion y la profundidad del la colision
     /// </summary>
     /// <param name="circle"></param>
     /// <param name="vertices"></param>

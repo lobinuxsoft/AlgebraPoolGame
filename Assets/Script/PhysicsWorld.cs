@@ -30,7 +30,7 @@ public class PhysicsWorld : MonoBehaviour
                     PhysicCollider colliderB = physicColliders[j];
                     PhysicBody bodyB = physicBodies[j];
 
-                    if(colliderA is CircleCollider && colliderB is RectCollider)
+                    if(colliderA is CircleCollider && colliderB is RectCollider) //Calcula las colisiones entre Circulo-Rectangulo
                     {
                         RectCollider rect = (RectCollider)colliderB;
                         if (Collisions.IntersectCirclePolygon((CircleCollider)colliderA, rect.TransformedVertices, out Vector3 normal, out float depth)) // Mediante el teorema de los ejes separados determina si hay colision
@@ -60,7 +60,7 @@ public class PhysicsWorld : MonoBehaviour
                             bodyB.HitByCue(resultB);
                         }
                     }
-                    else if (colliderA is RectCollider && colliderB is CircleCollider)
+                    else if (colliderA is RectCollider && colliderB is CircleCollider) // Calcula la colision entre Rectangulo-Circulo
                     {
                         RectCollider rect = (RectCollider)colliderA;
                         if (Collisions.IntersectCirclePolygon((CircleCollider)colliderB, rect.TransformedVertices, out Vector3 normal, out float depth))
@@ -90,21 +90,21 @@ public class PhysicsWorld : MonoBehaviour
                             bodyB.HitByCue(resultB);
                         }
                     }
-                    else if (colliderA is CircleCollider && colliderB is HoleCollider)
+                    else if (colliderA is CircleCollider && colliderB is HoleCollider) // Calcula la colision entre Circulo-Agujero
                     {
                         if(Collisions.CircleContainPoint((HoleCollider)colliderB, ((CircleCollider)colliderA).Center))
                         {
-                            onEnterTheHole?.Invoke(colliderA.gameObject);
+                            onEnterTheHole?.Invoke(colliderA.gameObject); //Si hay colision invoco el evento "onEnterTheHole" y le paso el circulo que entro
                         }
                     }
-                    else if (colliderA is HoleCollider && colliderB is CircleCollider)
+                    else if (colliderA is HoleCollider && colliderB is CircleCollider) // Calcula la colision entre Agujero-Circulo
                     {
                         if (Collisions.CircleContainPoint((HoleCollider)colliderA, ((CircleCollider)colliderB).Center))
                         {
-                            onEnterTheHole?.Invoke(colliderB.gameObject);
+                            onEnterTheHole?.Invoke(colliderB.gameObject); //Si hay colision invoco el evento "onEnterTheHole" y le paso el circulo que entro
                         }
                     }
-                    else if (colliderA is CircleCollider && colliderB is CircleCollider)
+                    else if (colliderA is CircleCollider && colliderB is CircleCollider) // Calcula la colision entre Circulo-Circulo
                     {
                         if (Collisions.IntersectCircles((CircleCollider)colliderA, (CircleCollider)colliderB, out Vector3 normal, out float depth))
                         {
